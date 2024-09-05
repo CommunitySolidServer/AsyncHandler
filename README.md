@@ -1,6 +1,6 @@
 # AsyncHandler
 
-[![npm version](https://badge.fury.io/js/asynchandler.svg)](https://www.npmjs.com/package/asynchandler)
+[![npm version](https://badge.fury.io/js/asynchronous-handlers.svg)](https://www.npmjs.com/package/asynchronous-handlers)
 
 This library provides a generic interface which you can use for classes,
 so they can easily be combined using composite patterns.
