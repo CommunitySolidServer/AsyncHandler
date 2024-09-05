@@ -1,6 +1,6 @@
 {
   "name": "asynchandler",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "license": "MIT",
   "repository": "git@github.com:CommunitySolidServer/AsyncHandler.git",
   "main": "./dist/index.js",
@@ -8,12 +8,12 @@
   "lsd:module": "https://linkedsoftwaredependencies.org/bundles/npm/asynchandler",
   "lsd:components": "dist/components/components.jsonld",
   "lsd:contexts": {
-    "https://linkedsoftwaredependencies.org/bundles/npm/asynchandler/^0.0.0/components/context.jsonld": "dist/components/context.jsonld"
+    "https://linkedsoftwaredependencies.org/bundles/npm/asynchandler/^1.0.0/components/context.jsonld": "dist/components/context.jsonld"
   },
   "lsd:importPaths": {
-    "https://linkedsoftwaredependencies.org/bundles/npm/asynchandler/^0.0.0/components/": "dist/components/",
-    "https://linkedsoftwaredependencies.org/bundles/npm/asynchandler/^0.0.0/config/": "config/",
-    "https://linkedsoftwaredependencies.org/bundles/npm/asynchandler/^0.0.0/dist/": "dist/"
+    "https://linkedsoftwaredependencies.org/bundles/npm/asynchandler/^1.0.0/components/": "dist/components/",
+    "https://linkedsoftwaredependencies.org/bundles/npm/asynchandler/^1.0.0/config/": "config/",
+    "https://linkedsoftwaredependencies.org/bundles/npm/asynchandler/^1.0.0/dist/": "dist/"
   },
   "files": [
     "config",
