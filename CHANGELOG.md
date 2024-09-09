@@ -1,8 +1,15 @@
 <!-- markdownlint-disable MD013 -->
 <!-- markdownlint-disable MD013 -->
+<!-- markdownlint-disable MD013 -->
 # Changelog
 
 All notable changes to this project will be documented in this file.
+
+## [1.0.2](https://github.com/CommunitySolidServer/AsyncHandler/compare/v1.0.1...v1.0.2) (2024-09-09)
+
+### Fixes
+
+* Let ParallelHandler only run able handlers ([3f3d636](https://github.com/CommunitySolidServer/AsyncHandler/commit/3f3d636d91407045d5f724a40d3f73c705a267f3))
 
 ## [1.0.1](https://github.com/CommunitySolidServer/AsyncHandler/compare/v1.0.0...v1.0.1) (2024-09-05)
 
