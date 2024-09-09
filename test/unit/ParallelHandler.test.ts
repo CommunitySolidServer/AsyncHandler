@@ -8,13 +8,16 @@ describe('ParallelHandler', (): void => {
   beforeEach(async(): Promise<void> => {
     handlers = [
       {
-        handleSafe: jest.fn().mockResolvedValue('0'),
+        canHandle: jest.fn(),
+        handle: jest.fn().mockResolvedValue('0'),
       } satisfies Partial<AsyncHandler<string, string>> as any,
       {
-        handleSafe: jest.fn().mockResolvedValue('1'),
+        canHandle: jest.fn(),
+        handle: jest.fn().mockResolvedValue('1'),
       } satisfies Partial<AsyncHandler<string, string>> as any,
       {
-        handleSafe: jest.fn().mockResolvedValue('2'),
+        canHandle: jest.fn(),
+        handle: jest.fn().mockResolvedValue('2'),
       } satisfies Partial<AsyncHandler<string, string>> as any,
     ];
 
@@ -22,19 +25,21 @@ describe('ParallelHandler', (): void => {
   });
 
   it('can handle all requests.', async(): Promise<void> => {
-    handlers[0].handleSafe.mockRejectedValueOnce(new Error('error'));
+    handlers[0].canHandle.mockRejectedValueOnce(new Error('error'));
+    handlers[1].handle.mockRejectedValueOnce(new Error('error'));
     await expect(parallel.canHandle('input')).resolves.toBeUndefined();
   });
 
   it('runs all handlers that can handle the input.', async(): Promise<void> => {
+    handlers[0].canHandle.mockRejectedValueOnce(new Error('error'));
     await expect(parallel.handle('abc')).resolves.toBeUndefined();
 
-    expect(handlers[0].handleSafe).toHaveBeenCalledTimes(1);
-    expect(handlers[1].handleSafe).toHaveBeenCalledTimes(1);
-    expect(handlers[2].handleSafe).toHaveBeenCalledTimes(1);
+    expect(handlers[0].canHandle).toHaveBeenLastCalledWith('abc');
+    expect(handlers[1].canHandle).toHaveBeenLastCalledWith('abc');
+    expect(handlers[2].canHandle).toHaveBeenLastCalledWith('abc');
 
-    expect(handlers[0].handleSafe).toHaveBeenCalledWith('abc');
-    expect(handlers[1].handleSafe).toHaveBeenCalledWith('abc');
-    expect(handlers[2].handleSafe).toHaveBeenCalledWith('abc');
+    expect(handlers[0].handle).toHaveBeenCalledTimes(0);
+    expect(handlers[1].handle).toHaveBeenLastCalledWith('abc');
+    expect(handlers[2].handle).toHaveBeenLastCalledWith('abc');
   });
 });

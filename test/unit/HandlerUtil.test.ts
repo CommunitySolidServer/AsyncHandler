@@ -1,5 +1,5 @@
 import type { AsyncHandler } from '../../src/AsyncHandler';
-import { filterHandlers, findHandler } from '../../src/HandlerUtil';
+import { filterHandlers, findHandler, handleIfAble } from '../../src/HandlerUtil';
 import { getError } from '../TestUtil';
 
 describe('HandlerUtil', (): void => {
@@ -9,6 +9,7 @@ describe('HandlerUtil', (): void => {
   beforeEach(async(): Promise<void> => {
     handlerTrue = {
       canHandle: jest.fn(),
+      handle: jest.fn().mockResolvedValue(true),
     } satisfies Partial<AsyncHandler<any, any>> as any;
     handlerFalse = {
       canHandle: jest.fn().mockRejectedValue(new Error('test')),
@@ -43,6 +44,16 @@ describe('HandlerUtil', (): void => {
       expect(error.errors).toHaveLength(2);
       expect(error.errors[0].message).toBe('test');
       expect(error.errors[1].message).toBe('test');
+    });
+  });
+
+  describe('#handleIfAble', (): void => {
+    it('returns undefined if the handler cannot handle the input.', async(): Promise<void> => {
+      await expect(handleIfAble(handlerFalse, 'a')).resolves.toBeUndefined();
+    });
+
+    it('returns the value if the handler can handle the input.', async(): Promise<void> => {
+      await expect(handleIfAble(handlerTrue, 'a')).resolves.toBe(true);
     });
   });
 });

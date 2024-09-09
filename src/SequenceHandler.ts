@@ -16,13 +16,11 @@ export class SequenceHandler<TIn = void, TOut = void> extends AsyncHandler<TIn, 
   public async handle(input: TIn): Promise<TOut | undefined> {
     let result: TOut | undefined;
     for (const handler of this.handlers) {
-      let supported: boolean;
+      let supported = false;
       try {
         await handler.canHandle(input);
         supported = true;
-      } catch {
-        supported = false;
-      }
+      } catch {}
       if (supported) {
         result = await handler.handle(input);
       }

@@ -52,3 +52,18 @@ Promise<AsyncHandler<TIn, TOut>[]> {
 
   throw new AggregateError(errors, 'No handler can handle the input');
 }
+
+/**
+ * Returns the value of the `handle` call if the handle can handle input.
+ *
+ * @param handler - Handler to run the input.
+ * @param input - Input to handle.
+ */
+export async function handleIfAble<TIn, TOut>(handler: AsyncHandler<TIn, TOut>, input: TIn): Promise<TOut | void> {
+  try {
+    await handler.canHandle(input);
+  } catch {
+    return;
+  }
+  return handler.handle(input);
+}
