@@ -33,7 +33,7 @@
     "global-logger-factory": "^1.0.0"
   },
   "devDependencies": {
-    "@commitlint/cli": "^20.1.0",
+    "@commitlint/cli": "^21.0.0",
     "@commitlint/config-conventional": "^21.0.0",
     "@tsconfig/node20": "^20.1.4",
     "@types/jest": "^29.5.12",
