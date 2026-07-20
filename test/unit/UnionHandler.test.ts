@@ -1,5 +1,5 @@
 import type { AsyncHandler } from '../../src/AsyncHandler';
-import { UnionHandler } from '../../src/UnionHandler';
+import { allFulfilled, UnionHandler } from '../../src/UnionHandler';
 import { getError } from '../TestUtil';
 
 class SimpleUnionHandler extends UnionHandler<AsyncHandler<any, string>> {
@@ -102,5 +102,26 @@ describe('UnionHandler', (): void => {
     handlers[0].handle.mockRejectedValueOnce(new Error('bad request'));
     handlers[1].handle.mockRejectedValueOnce(new Error('bad request'));
     await expect(handler.handleSafe(input)).resolves.toBe('');
+  });
+
+  describe('#allFulfilled', (): void => {
+    it('returns the values of all fulfilled promises.', async(): Promise<void> => {
+      await expect(allFulfilled([ Promise.resolve(1), Promise.resolve(2) ])).resolves.toEqual([ 1, 2 ]);
+    });
+
+    it('throws a combined error if a promise rejects and ignoreErrors is false.', async(): Promise<void> => {
+      const error = await getError(async(): Promise<number[]> =>
+        allFulfilled([ Promise.resolve(1), Promise.reject(new Error('bad request')) ])) as AggregateError;
+      expect(error.message).toBe('No handler can handle the input');
+      expect(error.errors).toHaveLength(1);
+      expect(error.errors[0].message).toBe('bad request');
+    });
+
+    it('ignores rejected promises if ignoreErrors is true.', async(): Promise<void> => {
+      await expect(allFulfilled(
+        [ Promise.resolve(1), Promise.reject(new Error('bad request')) ],
+        true,
+      )).resolves.toEqual([ 1 ]);
+    });
   });
 });

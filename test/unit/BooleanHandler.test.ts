@@ -1,5 +1,5 @@
 import { AsyncHandler } from '../../src/AsyncHandler';
-import { BooleanHandler } from '../../src/BooleanHandler';
+import { BooleanHandler, promiseSome } from '../../src/BooleanHandler';
 import { getError } from '../TestUtil';
 
 class DummyHandler extends AsyncHandler<any, any> {
@@ -77,5 +77,15 @@ describe('BooleanHandler', (): void => {
     expect(error.errors).toHaveLength(2);
     expect(error.errors[0].message).toBe('test');
     expect(error.errors[1].message).toBe('test');
+  });
+
+  describe('#promiseSome', (): void => {
+    it('returns true if at least one predicate resolves to true.', async(): Promise<void> => {
+      await expect(promiseSome([ Promise.resolve(false), Promise.resolve(true) ])).resolves.toBe(true);
+    });
+
+    it('returns false if all predicates resolve to false or reject.', async(): Promise<void> => {
+      await expect(promiseSome([ Promise.resolve(false), Promise.reject(new Error('test')) ])).resolves.toBe(false);
+    });
   });
 });
